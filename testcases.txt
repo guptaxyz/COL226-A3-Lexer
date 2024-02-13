@@ -1,0 +1,77 @@
+TestCases:
+
+# Basic Examples:
+
+#1- tokenize "021+ 23";;  
+- : token list = [INT_CONSTANT 21; PLUS_ARITHMETIC_OP '+'; INT_CONSTANT 23]
+
+#2- tokenize "1abc ifthen";;
+- : token list = [ERROR_INVALID_IDENTIFIER "1abc"; IDENTIFIER "ifthen"]
+
+#3- tokenize "let i = 0.900 ";; 
+- : token list = [KEYWORD "let"; IDENTIFIER "i"; EQUAL_ASSIGN '='; FLOAT_CONSTANT 0.9]
+
+#4- tokenize "match \"true\" with true";;
+- : token list = [KEYWORD "match"; STRING_CONSTANT "true"; KEYWORD "with"; BOOL_CONSTANT true]
+
+#5- tokenize "trueandfalse=false"
+- : token list = [IDENTIFIER "trueandfalse"; EQUAL_ASSIGN '='; BOOL_CONSTANT false]
+ 
+# Good Examples:
+
+#1- tokenize "if x mod 2 = 0 then \"even\" else \"odd\"";;
+    Output: token list =
+[KEYWORD "if"; IDENTIFIER "x"; MOD_ARITHMETIC_OP "mod"; INT_CONSTANT 2;
+ EQUAL_ASSIGN '='; INT_CONSTANT 0; KEYWORD "then";
+ STRING_CONSTANT "even"; KEYWORD "else"; STRING_CONSTANT "odd"]
+
+#2- tokenize "fun add(a, b) -> a + b;;";; 
+    Output: token list =
+[KEYWORD "fun"; IDENTIFIER "add"; LEFTPAREN '('; IDENTIFIER "a"; COMMA ',';
+ IDENTIFIER "b"; RIGHTPAREN ')'; REFRENCE "->"; IDENTIFIER "a";
+ PLUS_ARITHMETIC_OP '+'; IDENTIFIER "b"; DELIMITER_OCAML ";;"]
+
+#3- tokenize "true&&false=false"
+    Output: token list =
+[BOOL_CONSTANT true; AND "&&"; BOOL_CONSTANT false; EQUAL_ASSIGN '=';
+ BOOL_CONSTANT false]
+
+#4- tokenize "1abc/if0=00.500"
+    Output: token list =
+[ERROR_INVALID_IDENTIFIER "1abc"; DIV_ARITHMETIC_OP '/'; IDENTIFIER "if0";
+ EQUAL_ASSIGN '='; FLOAT_CONSTANT 0.5]
+
+#5- tokenize "(00570 + [0003.000*xmod3])"
+    Output: token list =
+[LEFTPAREN '('; INT_CONSTANT 570; PLUS_ARITHMETIC_OP '+'; LEFTPAREN '[';
+ FLOAT_CONSTANT 3.; MUL_ARITHMETIC_OP '*'; IDENTIFIER "xmod3";
+ RIGHTPAREN ']'; RIGHTPAREN ')']
+
+#6- tokenize "(00570 + [0003.000*Xmod3])"
+    Output: token list =
+[LEFTPAREN '('; INT_CONSTANT 570; PLUS_ARITHMETIC_OP '+'; LEFTPAREN '[';
+ FLOAT_CONSTANT 3.; MUL_ARITHMETIC_OP '*'; ERROR_INVALID_IDENTIFIER "Xmod3";
+ RIGHTPAREN ']'; RIGHTPAREN ')']
+
+#7- tokenize "Hello wo*Rld !"
+    Output: token list =
+[ERROR_INVALID_IDENTIFIER "Hello"; IDENTIFIER "wo"; MUL_ARITHMETIC_OP '*';
+ ERROR_INVALID_IDENTIFIER "Rld"; ERROR_UNIDENTIFIED_CHAR '!']
+
+#8- tokenize "if 'a'<>'aa' then a'b else abc"
+    Output: token list =
+[KEYWORD "if"; CHAR_CONSTANT 'a'; NOT_EQUAL_TO "<>";
+ ERROR_INVALID_IDENTIFIER "'aa'"; KEYWORD "then"; IDENTIFIER "a'b";
+ KEYWORD "else"; IDENTIFIER "abc"]
+
+#9- tokenize "4ll t35tc4s35 p4S53D \":)\""
+    Output: token list =
+[ERROR_INVALID_IDENTIFIER "4ll"; IDENTIFIER "t35tc4s35"; IDENTIFIER "p4S53D";
+ STRING_CONSTANT ":)"]
+ 
+#10- tokenize "if (c0D3 r4n 5*cc35fU11y) then \"party!!!\" else \"sed\""
+    Output: token list =
+[KEYWORD "if"; LEFTPAREN '('; IDENTIFIER "c0D3"; IDENTIFIER "r4n";
+ INT_CONSTANT 5; MUL_ARITHMETIC_OP '*'; IDENTIFIER "cc35fU11y";
+ RIGHTPAREN ')'; KEYWORD "then"; STRING_CONSTANT "party!!!"; KEYWORD "else";
+ STRING_CONSTANT "sed"]
