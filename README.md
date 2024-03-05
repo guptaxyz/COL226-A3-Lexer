@@ -1,4 +1,4 @@
-# COL226-PL
+# COL226-PL A3
 
 Hi ! I'm Aditya, a junior in Computer Science Department at IIT Delhi.
 This repository shall be including the assignment-3 along with my submission, for the Programming Languages Course under Prof. Sanjiva Prasad in the Spring semester of 2024.
